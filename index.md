@@ -2,18 +2,16 @@
 title: Beer website
 ---
 
-<h1>Beer Website!</h1>
-    <p>If you can see this, it's working!</p>
+# Beer Website!
 
-    <ul>
-        {% for beer_hash in site.data.beer %}
-        {% assign beer = beer_hash[1] %}
-        <li>
-            <h2>{{ beer.name }}</h2>
-            <p>{{ beer.description }}</p>
-        </li>
-        {% endfor %}
-    </ul>
-</body>
+If you can see this, it's working!
 
-</html>
+<ul>
+    {% for beer_hash in site.data.beer %}
+    {% assign beer = beer_hash[1] %}
+    <li>
+        <h2>{{ beer.name }}</h2>
+        <p>{{ beer.description }}</p>
+    </li>
+    {% endfor %}
+</ul>
