@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html>
+---
+title: Beer website
+---
 
-<head>
-    <title>Beer Webiste</title>
-</head>
-
-<body>
-    <h1>Beer Website!</h1>
+<h1>Beer Website!</h1>
     <p>If you can see this, it's working!</p>
 
     <ul>
