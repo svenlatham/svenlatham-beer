@@ -5,3 +5,7 @@ plugins_dir         : _plugins # takes an array of strings and loads plugins in 
 layouts_dir         : _layouts
 data_dir            : _data
 includes_dir        : _includes
+
+collections:
+  beer:
+    output: true
