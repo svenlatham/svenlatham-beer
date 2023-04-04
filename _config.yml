@@ -1,3 +1,14 @@
 collections:
   beer:
     output: true
+
+defaults:
+  - scope:
+      path: ""
+      type: "beer"
+    values:
+      layout: "beer"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
