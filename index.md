@@ -14,6 +14,9 @@ title: Beer website
     {% if file_exists.size != 0 %}
     <img src="{{ path }}" class="img-fluid rounded-start">
     {% endif %}
+    {% if beer.trappist == true %{
+        <img src="/f/trappist.png" alt="Authentic Trappist Product">
+    {% endif %}
     </div>
     <div class="col-9">
     <div class="card-body">
