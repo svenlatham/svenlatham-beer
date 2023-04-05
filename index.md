@@ -14,7 +14,7 @@ title: Beer website
     {% if file_exists.size != 0 %}
     <img src="{{ path }}" class="img-fluid rounded-start">
     {% endif %}
-    {% if beer.trappist == true %{
+    {% if beer.trappist == true %}
         <img src="/f/trappist.png" alt="Authentic Trappist Product">
     {% endif %}
     </div>
