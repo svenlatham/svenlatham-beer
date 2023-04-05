@@ -15,7 +15,7 @@ title: Beer website
     <img src="{{ path }}" class="img-fluid rounded-start">
     {% endif %}
     {% if beer.trappist == true %}
-        <img src="/f/trappist.png" alt="Authentic Trappist Product">
+        <img src="/f/trappist.png" alt="Authentic Trappist Product" class="img-fluid rounded-start">
     {% endif %}
     </div>
     <div class="col-9">
