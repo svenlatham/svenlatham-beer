@@ -4,4 +4,14 @@ layout: default
 <h1>{{ page.name }}</h1>
 <h2>{{ page.position }}</h2>
 
+{% assign path = page.id | append: ".jpg"  %}
+{% assign file_exists = site.static_files | where: "path", path  %}
+{% if file_exists.size != 0 %}
+<img src="{{ path }}">
+{% endif %}
+{% endfor %}
+
+{{ page.description }}
+
+
 {{ content }}
