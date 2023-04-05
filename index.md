@@ -2,7 +2,7 @@
 title: Beer website
 ---
 <div class="container">
-{% for beer in site.beer %}
+{% for beer in site.beer | sort: "name" %}
 <div class="card mb-3" style="max-width: 540px;">
 <div class="row g-0">
     <div class="col-md-4">
