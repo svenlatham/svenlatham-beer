@@ -5,8 +5,10 @@ layout: default
 <h2>{{ page.position }}</h2>
 
 {% assign path = page.slug | prepend: "/beer-final/480/" | append: ".jpg"  %}
-{{ path }}3
 {% assign file_exists = site.static_files | where: "path", path  %}
+
+{{ file_exists }}
+{{ file_exists.size }}
 
 <img src="{{ path }}">
 
