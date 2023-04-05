@@ -11,7 +11,7 @@ title: Beer website
 <div class="card mb-3" style="max-width: 540px;">
 <div class="row g-0">
     <div class="col-md-4">
-    {% assign path = page.slug | prepend: "/beer-final/480/" | append: ".jpg"  %}
+    {% assign path = beer.slug | prepend: "/beer-final/480/" | append: ".jpg"  %}
     {% assign file_exists = site.static_files | where: "path", path  %}
     {% if file_exists.size != 0 %}
     <img src="{{ path }}" class="img-fluid rounded-start">
