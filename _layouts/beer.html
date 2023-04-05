@@ -7,12 +7,11 @@ layout: default
 {% assign path = page.slug | prepend: "/beer-final/480/" | append: ".jpg"  %}
 {% assign file_exists = site.static_files | where: "path", path  %}
 
-{{ file_exists }}
-{{ file_exists.size }}
+{% if file_exists %}
 
 <img src="{{ path }}">
 
-
+{% endif %}
 {{ page.description }}
 
 
