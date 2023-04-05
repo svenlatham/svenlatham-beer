@@ -4,7 +4,7 @@ layout: default
 <h1>{{ page.name }}</h1>
 <h2>{{ page.position }}</h2>
 
-{% assign path = page.slug | prepend: "/beer/" | append: ".jpg"  %}
+{% assign path = page.slug | prepend: "/beer-final/" | append: ".jpg"  %}
 {{ path }}3
 {% assign file_exists = site.static_files | where: "path", path  %}
 
