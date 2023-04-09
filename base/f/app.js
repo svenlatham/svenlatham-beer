@@ -38,6 +38,8 @@
             if (item.image) {
                 var domImg = document.createElement("IMG");
                 domImg.setAttribute("src", item.image);
+                domImg.style.objectFit = "contain");
+                domImg.style.width="480px";
                 domImageColumn.appendChild(domImg);
             }
 
