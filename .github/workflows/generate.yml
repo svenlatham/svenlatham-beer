@@ -45,7 +45,7 @@ jobs:
         uses: subic/ghaction-thumbnails@master
         with: # Required arguments:
           source: 'beer-images'
-          output: 'beer-final'
+          output: '_site/beer-final'
           sizes: 480,240x240
       - name: Create pages
         run: python3 generate.py
