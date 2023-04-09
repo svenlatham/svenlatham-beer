@@ -33,8 +33,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Copy base folder
-        run: cp -r base/ _site/
       - name: Setup Python
         uses: actions/setup-python@v2
         with:

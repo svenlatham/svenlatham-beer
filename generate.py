@@ -1,6 +1,7 @@
 # This will generate the site in _site for upload to pages
 
-import os
+import os, shutil
+from distutils.dir_util import copy_tree
 import json
 import frontmatter
 
@@ -10,10 +11,30 @@ md_directory = "./_beer/"
 # Set the directory path of the template files
 template_directory = "./base/"
 
+image_directory = "./beer-images/"
+image_240_directory = "./beer-images/240/"
+
 # Set the name of the output files
 output_directory = "./_site/"
 
-### STEP 1 - Generate JSON
+
+### STEP 0 - Empty everything in _site
+
+for root, dirs, files in os.walk(output_directory):
+    for f in files:
+        os.unlink(os.path.join(root, f))
+    for d in dirs:
+        shutil.rmtree(os.path.join(root, d))
+
+### STEP 1 - Copy everything to _site
+
+copy_tree(template_directory, output_directory)
+
+
+
+
+
+### STEP 2 - Generate JSON
 
 # Initialize an empty dictionary to store the metadata
 metadata_dict = {}
@@ -32,6 +53,14 @@ for file_name in os.listdir(md_directory):
             md = frontmatter.loads(md_content)
             front_matter = md.metadata
             front_matter['id'] = id
+
+            # Check existence of image:
+            img_file = ("%s.jpg" % (id))
+            img_check = os.path.join(image_directory, img_file)
+            img_actual = os.path.join(image_240_directory, img_file)
+            if (os.path.exists(img_check)):
+                front_matter['image'] = img_actual
+
 
             # Add the metadata to the dictionary
             metadata_dict[id] = front_matter
