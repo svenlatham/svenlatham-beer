@@ -12,7 +12,7 @@ md_directory = "./_beer/"
 template_directory = "./base/"
 
 image_directory = "./beer-images/"
-image_240_directory = "./beer-images/240/"
+image_thumb_directory = "./beer-final/480/"
 
 # Set the name of the output files
 output_directory = "./_site/"
@@ -57,7 +57,7 @@ for file_name in os.listdir(md_directory):
             # Check existence of image:
             img_file = ("%s.jpg" % (id))
             img_check = os.path.join(image_directory, img_file)
-            img_actual = os.path.join(image_240_directory, img_file)
+            img_actual = os.path.join(image_thumb_directory, img_file)
             if (os.path.exists(img_check)):
                 front_matter['image'] = img_actual
 
