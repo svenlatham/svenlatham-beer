@@ -36,7 +36,7 @@ jobs:
       - name: Copy base folder
         run: cp -r base/ _site/
       - name: Setup Python
-        uses: ruby/setup-python@v2
+        uses: actions/setup-python@v2
         with:
           python-version: '3.7'
       - name: Install PIP and dependencies
