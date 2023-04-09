@@ -36,6 +36,7 @@ for file_name in os.listdir(md_directory):
             # Add the metadata to the dictionary
             metadata_dict[id] = front_matter
 
+output_file = os.path.join(output_directory, "metadata.json")
 # Write the metadata dictionary to a JSON file
 with open(output_file, "w") as f:
     json.dump(metadata_dict, f)
