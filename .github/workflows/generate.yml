@@ -49,6 +49,8 @@ jobs:
           source: 'beer-images'
           output: 'beer-final'
           sizes: 480,240x240
+      - name: Create pages
+        run: python3 generate.py
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v3
