@@ -41,14 +41,14 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip3 install -r requirements.txt
+      - name: Create pages
+        run: python3 generate.py
       - name: Generate images
         uses: subic/ghaction-thumbnails@master
         with: # Required arguments:
           source: 'beer-images'
           output: '_site/beer-final'
           sizes: 480,240x240
-      - name: Create pages
-        run: python3 generate.py
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v3
