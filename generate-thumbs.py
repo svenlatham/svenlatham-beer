@@ -3,7 +3,8 @@ from PIL import Image, ImageOps
 
 indir = "/app/beer-images/"
 outdir = "/app/beer-thumbs/"
-
+# Ensure the outdir exists
+os.makedirs(outdir, exist_ok=True)
 
 def generate_all():
     onlyfiles = [f for f in os.listdir(indir) if os.path.isfile(os.path.join(indir, f))]
