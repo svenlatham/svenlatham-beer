@@ -1,4 +1,3 @@
-pip3 install python-frontmatter
-python3 generate.py
-cd _site
-python3 -m http.server 4000
+#!/bin/bash
+
+podman build -t svenlatham-beer . && podman run -it -p 8087:8087 -v .:/app/ localhost/svenlatham-beer

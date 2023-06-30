@@ -1,4 +1,5 @@
 ---
 name: Saint Lambertus (Summer)
-description: light, 5.5%. Bit of an unpleasant aftertaste consistent with beers of this type. Not great.
+description: Bit of an unpleasant aftertaste consistent with beers of this type. Not great.
+strength: 5.5%
 ---

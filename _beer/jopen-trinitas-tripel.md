@@ -1,4 +1,6 @@
 ---
 name: Jopen Trinitas Tripel
-description: 9.0%... nice blended beer, tastes like rochefort 10. enjoyable, qu6ote strong but not unpleasant. From Haarlem.
+description: Nice blended beer, tastes like rochefort 10. enjoyable, quite strong but not unpleasant. From Haarlem.
+strength: 9.0%
+country: nl
 ---
