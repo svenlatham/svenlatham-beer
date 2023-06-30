@@ -5,4 +5,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 # Generate thumbnails
 EXPOSE 8087
-ENTRYPOINT ["/bin/sh","./run.bash"]
+ENTRYPOINT ["/bin/bash","./run.bash"]
