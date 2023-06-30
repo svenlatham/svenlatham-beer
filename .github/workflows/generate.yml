@@ -31,6 +31,9 @@ jobs:
 
       - name: Run the image and capture the output
         run: bash ./build.bash
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
 
 
   # Deployment job
