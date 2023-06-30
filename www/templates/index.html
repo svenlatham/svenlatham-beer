@@ -27,9 +27,9 @@
           {% if beer.strength or beer.trappist or beer.country or beer.brewer %}
           <div class="card-footer">
             {% if beer.strength %}<small class="text-muted">{{ beer.strength }}</small>{% endif %}
-            {% if beer.trappist %}<small class="text-muted"><img src="/f/trappist.png" style="width: 24px; height: 24px"> Trappist</small>{% endif %}
+            {% if beer.trappist %}<small class="text-muted"><img src="/f/trappist.png" alt="" style="width: 20.8px; height: 24px"> Trappist</small>{% endif %}
             {% if beer.brewer %}<small class="text-muted">{{ beer.brewer }}</small>{% endif %}
-            {% if beer.country %}<img src="https://flagcdn.com/48x36/{{ beer.country }}.png" style="width: 27px; height: 18px;" alt="{{ beer.country }}">{% endif %}
+            {% if beer.country %}<img src="https://flagcdn.com/48x36/{{ beer.country }}.png" style="width: 24px; height: 18px;" alt="{{ beer.country }}">{% endif %}
           </div>
           {% endif %}
           
