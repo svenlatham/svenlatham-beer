@@ -1,10 +1,5 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll site to Pages
+# Create a Docker image that we can spider and produce a bunch of static HTML outputs
+name: Deploy static site to Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -33,23 +28,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.7'
-      - name: Install PIP and dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip3 install -r requirements.txt
-      - name: Create pages
-        run: python3 generate.py
-      - name: Generate images
-        uses: subic/ghaction-thumbnails@master
-        with: # Required arguments:
-          source: 'beer-images'
-          output: '_site/beer-final'
-          sizes: 480,240x240
-      - name: Setup Pages
+
+      - name: Run the image and capture the output
+        run: ./build.bash
+
+
+    - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
