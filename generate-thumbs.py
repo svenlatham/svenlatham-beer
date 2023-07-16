@@ -12,7 +12,7 @@ def generate_all():
         infile = os.path.join(indir, res)
         outfile = os.path.join(outdir, res)
         image = Image.open(infile)
-        thumb = ImageOps.fit(image, (500, 300), Image.ANTIALIAS)
+        thumb = ImageOps.fit(image, (500, 300), Image.LANCZOS)
         thumb.save(outfile)
         print("Writing to %s" % (outfile))
 

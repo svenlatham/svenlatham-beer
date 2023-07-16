@@ -8,5 +8,5 @@ then
     podman build -t svenlatham-beer . && podman run -it -p 8087:8087 -v .:/app/ localhost/svenlatham-beer
 else
     echo "Using docker"
-    docker build -t svenlatham-beer . && docker run -it -p 8087:8087 -v .:/app/ localhost/svenlatham-beer
+    docker build -t svenlatham/svenlatham-beer . && docker run -it -p 8087:8087 -v $(pwd):/app/ svenlatham/svenlatham-beer
 fi
