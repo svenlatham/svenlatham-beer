@@ -11,6 +11,22 @@ def index():
     beers = get_all()
     # Sort by name for unsubscribable lists
     beers.sort(key=lambda x: x.name)
+    # Check the request GET fields for name, description, trappist, strength, and country
+    # And make sure we filter if they exist
+    if request.args.get('name'):
+        beers = [beer for beer in beers if request.args.get('name').lower() in beer.name.lower()]
+    if request.args.get('description'):
+        beers = [beer for beer in beers if request.args.get('description').lower() in beer.description.lower()]
+    if request.args.get('trappist'):
+        if request.args.get('trappist') == 'false':
+            beers = [beer for beer in beers if beer.trappist is False]
+        else:
+            beers = [beer for beer in beers if beer.trappist is True]
+    if request.args.get('strength'):
+        beers = [beer for beer in beers if beer.strength is not None and beer.strength >= request.args.get('strength')]
+    if request.args.get('country'):
+        beers = [beer for beer in beers if beer.country == request.args.get('country')]
+
     return render_template('index.html', beers=beers)
 
 @standard.route('/beer-thumbs/<path:path>')
