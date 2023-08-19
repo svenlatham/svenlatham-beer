@@ -9,6 +9,8 @@ standard = Blueprint('standard', __name__)
 @standard.route('/')
 def index():
     beers = get_all()
+    # Sort by name for unsubscribable lists
+    beers.sort(key=lambda x: x.name)
     return render_template('index.html', beers=beers)
 
 @standard.route('/beer-thumbs/<path:path>')
