@@ -2,7 +2,7 @@
 title: Beer website
 ---
 <div class="container">
-{% assign beers = site.beer | sort: "name" %}
+{% assign beers = site.beer | sort(attribute="name") %}
 {% for beer in beers %}
 <div class="card mb-3" style="max-width: 540px;">
 
