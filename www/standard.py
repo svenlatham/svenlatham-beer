@@ -4,19 +4,85 @@ from .db import *
 
 standard = Blueprint('standard', __name__)
 
+# Create a lookup table that we can use for lookups and call for rendering
+# We'll need to show the country names for NL, BE, FR and UK
+country_lookup = {
+    'NL': 'Netherlands',
+    'BE': 'Belgium',
+    'FR': 'France',
+    'UK': 'United Kingdom',
+    'US': 'United States',
+    'DE': 'Germany',
+    'ES': 'Spain',
+    'DK': 'Denmark',
+    'IT': 'Italy',
+    'IE': 'Ireland',
+    'CZ': 'Czech Republic',
+    'AT': 'Austria',
+    'CA': 'Canada',
+    'PL': 'Poland',
+    'SE': 'Sweden',
+    'PT': 'Portugal',
+    'CH': 'Switzerland',
+    'AU': 'Australia',
+    'NO': 'Norway',
+    'JP': 'Japan',
+    'RU': 'Russia',
+    'BR': 'Brazil',
+    'FI': 'Finland',
+    'HU': 'Hungary',
+    'AR': 'Argentina',
+    'RO': 'Romania',
+    'HR': 'Croatia',
+    'SK': 'Slovakia',
+    'MX': 'Mexico',
+    'EE': 'Estonia',
+    'LT': 'Lithuania',
+    'CN': 'China',
+    'GR': 'Greece',
+    'IS': 'Iceland',
+    'NZ': 'New Zealand',
+    'LV': 'Latvia',
+    'ZA': 'South Africa',
+    'UA': 'Ukraine',
+    'CL': 'Chile',
+    'IN': 'India',
+    'BG': 'Bulgaria',
+    'TR': 'Turkey',
+    'TH': 'Thailand',
+    'KR': 'South Korea',
+    'VN': 'Vietnam',
+    'ID': 'Indonesia',
+    'RS': 'Serbia',
+    'SI': 'Slovenia',
+    'PH': 'Philippines',
+    'CY': 'Cyprus',
+    'LU': 'Luxembourg',
+    'SG': 'Singapore',
+    'MY': 'Malaysia',
+    'HK': 'Hong Kong',
+    'PE': 'Peru',
+    'UY': 'Uruguay',
+    'MD': 'Moldova',
+    'CR': 'Costa Rica',
+    'BY': 'Belarus',
+    'CO': 'Colombia',
+    'TW': 'Taiwan',
+    'BA': 'Bosnia and Herzegovina'
+}
+
 
 
 @standard.route('/')
 def index():
     beers = get_all()
+
     # Sort by name for unsubscribable lists
     beers.sort(key=lambda x: x.name.upper())
     # Check the request GET fields for name, description, trappist, strength, and country
     # And make sure we filter if they exist
     if request.args.get('name'):
-        beers = [beer for beer in beers if request.args.get('name').lower() in beer.name.lower()]
-    if request.args.get('description'):
-        beers = [beer for beer in beers if request.args.get('description').lower() in beer.description.lower()]
+        beers = [beer for beer in beers if request.args.get('name').lower() in beer.name.lower() or request.args.get('name').lower() in beer.description.lower()]
     if request.args.get('trappist'):
         if request.args.get('trappist') == '0':
             beers = [beer for beer in beers if beer.trappist is False]
@@ -27,7 +93,31 @@ def index():
     if request.args.get('country'):
         beers = [beer for beer in beers if beer.country == request.args.get('country')]
 
-    return render_template('index.html', beers=beers)
+
+    # Create a list of countries from the beers, including the count of beers from that country
+    beer_countries = []
+    for beer in beers:
+        beer_countries.append(beer.country)
+    print(str(beer_countries))
+    
+    # use this to create a new variable, countries, which uses the countries_lookup table to create a list of countries with code, name and number of beers
+    countries = []
+    for country in beer_countries:
+        if country in country_lookup:
+            countries.append({'code': country, 'name': country_lookup[country], 'count': beer_countries.count(country)})
+    countries.sort(key=lambda x: x['name'])
+    countries.insert(0, {'code': '', 'name': 'All', 'count': len(beers)})
+    
+    # create a list of trappist
+    trappist = []
+    for beer in beers:
+        if beer.trappist not in trappist and beer.trappist is not None:
+            trappist.append(beer.trappist)
+    trappist.sort()
+    trappist.insert(0, '')
+
+    
+    return render_template('index.html', beers=beers, countries=countries, trappist=trappist)
 
 @standard.route('/beer-thumbs/<path:path>')
 def send_thumb(path):

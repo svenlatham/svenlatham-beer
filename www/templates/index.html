@@ -1,107 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta charset="UTF-8">
   <title>Beer | Sven Latham</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </head>
+
 <body>
-    <div class="container"><a href="https://www.svenlatham.com/">svenlatham.com</a> &gt; Beer</div>
+  <div class="container"><a href="https://www.svenlatham.com/">svenlatham.com</a> &gt; Beer</div>
   <main>
     <div class="container-fluid bg-dark">
       <div class="container py-3">
 
-      <!-- add a basic GET form that filters by name, description, country (probably nl, be or uk), trappist (boolean) or strength (a numeric value between 0 and 12)
+        <!-- add a basic GET form that filters by name, description, country (probably nl, be or uk), trappist (boolean) or strength (a numeric value between 0 and 12)
       -->
-      <form action="." method="GET" name="search">
-        <div class="row">
-          <div class="col">
-            <input type="text" class="form-control" name="name" placeholder="Name">
+        <form action="." method="GET" name="search">
+          <div class="row">
+            <div class="col">
+              <input type="text" class="form-control" name="name" placeholder="Name">
+            </div>
+            <div class="col">
+              <select class="form-select" name="country" placeholder="country">
+                <option value=""></option>
+                <option value="nl">Netherlands</option>
+                <option value="be">Belgium</option>
+                <option value="uk">United Kingdom</option>
+                <option value="fr">France</option>
+              </select>
+            </div>
+            <div class="col">
+              <select class="form-select" name="trappist" placeholder="trappist">
+                <option value=""></option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+            <div class="col">
+              <select class="form-select" name="strength" placeholder="Strength (minimum)">
+                <option value="">Strength (minimum)</option>
+                <option value="0">0%</option>
+                <option value="1">1%</option>
+                <option value="2">2%</option>
+                <option value="3">3%</option>
+                <option value="4">4%</option>
+                <option value="5">5%</option>
+                <option value="6">6%</option>
+                <option value="7">7%</option>
+                <option value="8">8%</option>
+                <option value="9">9%</option>
+                <option value="10">10%</option>
+                <option value="11">11%</option>
+                <option value="12">12%</option>
+              </select>
+            </div>
+            <div class="col">
+              <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
           </div>
-          <div class="col">
-            <input type="text" class="form-control" name="description" placeholder="Description">
-          </div>
-          <div class="col">
-            <select class="form-select" name="country">
-              <option value="">Country</option>
-              <option value="nl">Netherlands</option>
-              <option value="be">Belgium</option>
-              <option value="uk">United Kingdom</option>
-              <option value="fr">France</option>
-            </select>
-          </div>
-          <div class="col">
-            <select class="form-select" name="trappist">
-              <option value="">Trappist</option>
-              <option value="1">Yes</option>
-              <option value="0">No</option>
-            </select>
-          </div>
-          <div class="col">
-            <select class="form-select" name="strength">
-              <option value="">Strength (minimum)</option>
-              <option value="0">0%</option>
-              <option value="1">1%</option>
-              <option value="2">2%</option>
-              <option value="3">3%</option>
-              <option value="4">4%</option>
-              <option value="5">5%</option>
-              <option value="6">6%</option>
-              <option value="7">7%</option>
-              <option value="8">8%</option>
-              <option value="9">9%</option>
-              <option value="10">10%</option>
-              <option value="11">11%</option>
-              <option value="12">12%</option>
-            </select>
-          </div>
-          <div class="col">
-            <button type="submit" class="btn btn-primary">Filter</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>  
-    <div class="container py-3">
-
-      
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-      
-      
-      {% for beer in beers %}
-      <div class="col">
-        <div class="card h-100 shadow-sm">
-          {% if beer.img %}
-          <img src="/beer-thumbs/{{ beer.img }}" class="card-img-top" alt="">
-          {% else %}
-          <img src="/beer-thumbs/empty.jpg" class="card-img-top" alt="">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ beer.name }}</h5>
-            <p class="card-text">{{ beer.description }}</p>
-          </div>
-          {% if beer.strength or beer.trappist or beer.country or beer.brewer %}
-          <div class="card-footer">
-            {% if beer.strength %}<small class="text-muted">{{ beer.strength }}</small>{% endif %}
-            {% if beer.trappist %}<small class="text-muted"><img src="/f/trappist.png" alt="" style="width: 20.8px; height: 24px"> Trappist</small>{% endif %}
-            {% if beer.brewer %}<small class="text-muted">{{ beer.brewer }}</small>{% endif %}
-            {% if beer.country %}<img src="https://flagcdn.com/48x36/{{ beer.country }}.png" style="width: 24px; height: 18px;" alt="{{ beer.country }}">{% endif %}
-          </div>
-          {% endif %}
-          
-        </div>
+        </form>
       </div>
-      {% endfor %}
     </div>
-  </div>
+    <div class="container py-3">
+      <div class="row">
+      <!-- display the list of countries including the count down the left hand side -->
+      <div class="col-2">
+        <ul class="list-group">
+          {% for country in countries %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="?country={{ country.country }}">{{ country.country }}</a>
+            <span class="badge bg-primary rounded-pill">{{ country.count }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <!-- display the list of beers in a grid -->
+      <div class="col-10 row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+
+
+
+
+
+
+
+        {% for beer in beers %}
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            {% if beer.img %}
+            <img src="/beer-thumbs/{{ beer.img }}" class="card-img-top" alt="">
+            {% else %}
+            <img src="/beer-thumbs/empty.jpg" class="card-img-top" alt="">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ beer.name }}</h5>
+              <p class="card-text">{{ beer.description }}</p>
+            </div>
+            {% if beer.strength or beer.trappist or beer.country or beer.brewer %}
+            <div class="card-footer">
+              {% if beer.strength %}<small class="text-muted">{{ beer.strength }}</small>{% endif %}
+              {% if beer.trappist %}<small class="text-muted"><img src="/f/trappist.png" alt=""
+                  style="width: 20.8px; height: 24px"> Trappist</small>{% endif %}
+              {% if beer.brewer %}<small class="text-muted">{{ beer.brewer }}</small>{% endif %}
+              {% if beer.country %}<img src="https://flagcdn.com/48x36/{{ beer.country }}.png"
+                style="width: 24px; height: 18px;" alt="{{ beer.country }}">{% endif %}
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
 
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
   <script>
     document.forms.search.addEventListener('change', event => {
       document.querySelector('form').submit();
-    }) 
+    })
     // Ensure all fields are prepopulated from the query string
     document.addEventListener('DOMContentLoaded', event => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -118,4 +139,5 @@
     });
   </script>
 </body>
+
 </html>
