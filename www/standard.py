@@ -11,6 +11,7 @@ country_lookup = {
     'BE': 'Belgium',
     'FR': 'France',
     'UK': 'United Kingdom',
+    'GB': 'United Kingdom',
     'US': 'United States',
     'DE': 'Germany',
     'ES': 'Spain',
@@ -91,30 +92,50 @@ def index():
     if request.args.get('strength'):
         beers = [beer for beer in beers if beer.strength is not None and beer.strength >= request.args.get('strength')]
     if request.args.get('country'):
-        beers = [beer for beer in beers if beer.country == request.args.get('country')]
+        beers = [beer for beer in beers if beer.country is not None and beer.country.lower() == request.args.get('country').lower()]
 
 
-    # Create a list of countries from the beers, including the count of beers from that country
-    beer_countries = []
-    for beer in beers:
-        beer_countries.append(beer.country)
-    print(str(beer_countries))
-    
-    # use this to create a new variable, countries, which uses the countries_lookup table to create a list of countries with code, name and number of beers
+
+            
+    # translate this into a country list, using the lookup table
     countries = []
-    for country in beer_countries:
-        if country in country_lookup:
-            countries.append({'code': country, 'name': country_lookup[country], 'count': beer_countries.count(country)})
-    countries.sort(key=lambda x: x['name'])
-    countries.insert(0, {'code': '', 'name': 'All', 'count': len(beers)})
-    
+    beer_countries = {}
+    for beer in beers:  
+        if beer.country is None:
+            country_key = ''
+        else:   
+            country_key = beer.country.upper()
+
+        if country_key in beer_countries.keys():
+            beer_countries[country_key] += 1
+        else:
+            beer_countries[country_key] = 1
+
+    print(str(beer_countries))
+
+    # Merge this with the countries_lookup table so we can send something to the template   
+    for country in beer_countries.keys():
+        if country in country_lookup.keys():
+            countries.append({'name': country_lookup[country], 'code': country, 'count': beer_countries[country]})
+        else:
+            countries.append({'name': country, 'count': beer_countries[country]})
+    countries.sort(key=lambda x: x['name'].upper())
+
+
+
     # create a list of trappist
     trappist = []
-    for beer in beers:
-        if beer.trappist not in trappist and beer.trappist is not None:
-            trappist.append(beer.trappist)
-    trappist.sort()
-    trappist.insert(0, '')
+    trappist.append({'name': 'Trappist', 'value': '1'})
+    trappist.append({'name': 'Non-Trappist', 'value': '0'})
+    # populate the count of trappist from beer
+    for t in trappist:
+        t['count'] = 0
+        for beer in beers:
+            if t['value'] == '1' and beer.trappist is True:
+                t['count'] += 1
+            elif t['value'] == '0' and beer.trappist is False:
+                t['count'] += 1
+
 
     
     return render_template('index.html', beers=beers, countries=countries, trappist=trappist)
