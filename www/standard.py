@@ -72,6 +72,16 @@ country_lookup = {
     'BA': 'Bosnia and Herzegovina'
 }
 
+@standard.context_processor
+def gen_processor():
+        
+    def get_country_name(lookup):
+        lookup=lookup.upper()
+        if lookup in country_lookup.keys():
+            return country_lookup[lookup]
+        else:
+            return lookup
+    return dict(get_country_name=get_country_name)
 
 
 @standard.route('/')
@@ -138,7 +148,7 @@ def index():
 
 
     
-    return render_template('index.html', beers=beers, countries=countries, trappist=trappist)
+    return render_template('index.html', beers=beers, countries=countries, trappists=trappist)
 
 @standard.route('/beer-thumbs/<path:path>')
 def send_thumb(path):

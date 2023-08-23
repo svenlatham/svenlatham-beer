@@ -23,24 +23,6 @@
               <input type="text" class="form-control" name="name" placeholder="Name">
             </div>
             <div class="col">
-              <select class="form-select" name="strength" placeholder="Strength (minimum)">
-                <option value="">Strength (minimum)</option>
-                <option value="0">0%</option>
-                <option value="1">1%</option>
-                <option value="2">2%</option>
-                <option value="3">3%</option>
-                <option value="4">4%</option>
-                <option value="5">5%</option>
-                <option value="6">6%</option>
-                <option value="7">7%</option>
-                <option value="8">8%</option>==
-                <option value="9">9%</option>
-                <option value="10">10%</option>
-                <option value="11">11%</option>
-                <option value="12">12%</option>
-              </select>
-            </div>
-            <div class="col">
               <button type="submit" class="btn btn-primary">Filter</button>
             </div>
           </div>
@@ -51,30 +33,34 @@
       <div class="row">
         <!-- display the list of countries including the count down the left hand side -->
         <div class="col-2">
-          <h3>Country</h3>
           <ul class="list-group">
             <!-- add a clear all flag -->
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href=".">Clear all</a>
+              <a href=".">Clear all filters </a>
             </li>
+          </ul>
+
+          <h3>Country</h3>
+          <ul class="list-group">
             <!-- countries are stored as a list. the key gives us the country. the value gives us the count -->
             {% for country in countries %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="?country={{ country.code }}">{{ country.name }}</a>
+              <!-- if the country name is empty, put a plceholder -->
+              {% if country.name == '' %}
+                <a href="?country=">Unknown</a>
+              {% else %}
+                <a href="?country={{ country.code }}">{{ country.name }}</a>
+              {% endif %}
               <span class="badge bg-primary rounded-pill">{{ country.count }}</span>
             </li>
             {% endfor %}
           </ul>
           <h3>Trappist</h3>
           <ul class="list-group">
-            <!-- add a clear all flag -->
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href=".">Clear all</a>
-            </li>
             <!-- trappist are stored as a list. the key gives us the trappist value. the value gives us the count -->
             {% for trappist in trappists %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="?trappist={{ trappist.trappist }}">{{ trappist.trappist }}</a>
+              <a href="?trappist={{ trappist.value }}">{{ trappist.name }}</a>
               <span class="badge bg-primary rounded-pill">{{ trappist.count }}</span>
             </li>
             {% endfor %}
@@ -97,12 +83,12 @@
               </div>
               {% if beer.strength or beer.trappist or beer.country or beer.brewer %}
               <div class="card-footer">
-                {% if beer.strength %}<small class="text-muted">{{ beer.strength }}</small>{% endif %}
-                {% if beer.trappist %}<small class="text-muted"><img src="/f/trappist.png" alt=""
-                    style="width: 20.8px; height: 24px"> Trappist</small>{% endif %}
-                {% if beer.brewer %}<small class="text-muted">{{ beer.brewer }}</small>{% endif %}
-                {% if beer.country %}<img src="https://flagcdn.com/48x36/{{ beer.country }}.png"
-                  style="width: 24px; height: 18px;" alt="{{ beer.country }}">{% endif %}
+                {% if beer.strength %}<div><strong>Strength</strong> {{ beer.strength }}</div>{% endif %}
+                {% if beer.trappist %}<div><img src="/f/trappist.png" alt=""
+                    style="width: 20.8px; height: 24px"> Trappist</div>{% endif %}
+                {% if beer.brewer %}<div><strong>Brewer</strong> {{ beer.brewer }}</div>{% endif %}
+                {% if beer.country %}<div><strong>Origin</strong> <img src="https://flagcdn.com/48x36/{{ beer.country }}.png"
+              style="width: 24px; height: 18px;" alt=""> {{ get_country_name(lookup=beer.country) }}</div>{% endif %}
               </div>
               {% endif %}
 
