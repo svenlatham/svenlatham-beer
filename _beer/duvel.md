@@ -1,4 +1,7 @@
 ---
 name: Duvel
-description: Distinctive, lighter beer. A bit too fizzy in 75cl variants.
+description: Distinctive, lighter tasting beer but with quite a kick. A bit too fizzy in 75cl variants.
+strength: 8.5%
+country: be
+brewery: Duval Moortgat
 ---

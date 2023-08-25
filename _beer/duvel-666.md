@@ -1,4 +1,7 @@
 ---
 name: Duvel 6.66
-description: A new beer (2021) with a noticeably sour taste with lemon remains. Sadly not a favourite; Duval original remains my preferred.
+description: Nice beer along the lines of the origianl Duval with a slightly softer taste, lower strength.
+strength: 6.66% (give or take)
+country: be
+brewery: Duval Moortgat
 ---
