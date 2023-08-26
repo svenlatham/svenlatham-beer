@@ -30,4 +30,3 @@ title: Beer website
 </div>
 {% endfor %}
 </div>
-
