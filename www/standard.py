@@ -1,4 +1,4 @@
-from flask import Flask, request, send_from_directory, url_for, redirect, render_template
+from flask import Flask, app, request, send_from_directory, url_for, redirect, render_template, send_file
 from flask import Blueprint
 from .db import *
 
@@ -72,6 +72,42 @@ country_lookup = {
     'BA': 'Bosnia and Herzegovina'
 }
 
+@standard.app_template_global()
+# Function to see if a a key has been used
+def query_string_exists(key):
+    # Get the current query string
+    query_string = request.query_string.decode('utf-8')
+    # Split into a list of key-value pairs
+    query_list = query_string.split('&')
+    # Check if the key exists
+    for q in query_list:
+        if q.startswith(key):
+            return True
+    return False
+
+# Recreate query string from request. If a key-value pair is supplied overwrite any existing OR create new
+@standard.app_template_global()
+def recreate_query_string(key, value):
+    # Get the current query string
+    query_string = request.query_string.decode('utf-8')
+    # Split into a list of key-value pairs
+    query_list = query_string.split('&')
+    # If the key exists, remove it
+    for q in query_list:
+        if q.startswith(key):
+            query_list.remove(q)
+    # Add the new key-value pair only if value is not None
+    if value is not None:
+        query_list.append("%s=%s" % (key, value))
+    # Rejoin the list
+    # Filter out empty string values in query_list
+    query_list = list(filter(None, query_list))      
+    query_string = '&'.join(query_list)
+    # Return the query string
+    return query_string
+
+
+
 @standard.context_processor
 def gen_processor():
         
@@ -101,8 +137,10 @@ def index():
             beers = [beer for beer in beers if beer.trappist is True]
     if request.args.get('strength'):
         beers = [beer for beer in beers if beer.strength is not None and beer.strength >= request.args.get('strength')]
-    if request.args.get('country'):
-        beers = [beer for beer in beers if beer.country is not None and beer.country.lower() == request.args.get('country').lower()]
+    if request.args.get('country') == '':
+        beers = [beer for beer in beers if beer.country is None]
+    elif request.args.get('country'):   
+        beers = [beer for beer in beers if beer.country.lower() == request.args.get('country').lower()]
 
 
 
@@ -120,8 +158,6 @@ def index():
             beer_countries[country_key] += 1
         else:
             beer_countries[country_key] = 1
-
-    print(str(beer_countries))
 
     # Merge this with the countries_lookup table so we can send something to the template   
     for country in beer_countries.keys():
@@ -146,13 +182,51 @@ def index():
             elif t['value'] == '0' and beer.trappist is False:
                 t['count'] += 1
 
+    # Filter out the trappist if there are no values
+    trappist = [t for t in trappist if t['count'] > 0]
+
+
 
     
     return render_template('index.html', beers=beers, countries=countries, trappists=trappist)
 
+
+@standard.route('/beer/<path:path>/')
+def show_beer(path):
+    beers = get_all()
+
+    # Get the first beer that has the same ID as this path
+    beer_search = [beer for beer in beers if beer.id == path]
+    # If nothing found, return a 404
+    if len(beer_search) == 0:
+        return render_template('404.html'), 404
+    
+    beer = beer_search[0]
+
+
+    return render_template('beer.html', beer=beer)
+
+
+
 @standard.route('/beer-thumbs/<path:path>')
 def send_thumb(path):
-    return send_from_directory('/app/beer-thumbs/', path)
+    # Generate the equivalent image from beer-images (if it exists)
+    from PIL import Image, ImageOps
+    indir = "/app/beer-images/"
+    infile = os.path.join(indir, path)
+    if os.path.exists(infile) is False:
+        img = Image.new("RGB", (500, 300), (255, 255, 255))
+    else:
+        img = Image.open(infile)
+    thumb = ImageOps.fit(img, (500, 300), Image.LANCZOS)
+    # Generate the thumbnail
+    from io import BytesIO
+    buffer = BytesIO()
+    thumb.save(buffer, "JPEG")
+    buffer.seek(0)
+    return send_file(buffer, mimetype='image/jpeg')
+    
+
 
 @standard.route('/f/<path:path>')
 def send_furniture(path):

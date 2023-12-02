@@ -18,6 +18,8 @@ def get_all():
         mdfile = md.convertFile(fileloc)
         mdmeta = md.Meta
         file = Beer()
+        file.id = res.replace(".md","")
+        file.slug = res.replace(".md","")
         file.name = "".join(mdmeta['name'])
         file.description = "".join(mdmeta['description'])
         file.strength = "".join(mdmeta['strength']) if 'strength' in mdmeta else None
@@ -28,13 +30,9 @@ def get_all():
 
         # check to see if there's an image:
         imgfile = res.replace(".md",".jpg")
-        if os.path.isfile(os.path.join(imgpath, imgfile)):
-            file.img = imgfile
+        file.img = imgfile
 
         files.append(file)
         md.reset()
     return files
 
-
-#{'name': ['Gouverneur Tripel'], 'description': ['First few tastes were quite sour, but it steadily improved through the bottle. Nice smooth texture with a creamy aftertaste.'], 'strength': ['8.2%'], 'kcalhundredml': ['62'], 'brewer': ['Lindeboom Bierbrouwerij'], 'country': ['nl']}
-#\trappist: True

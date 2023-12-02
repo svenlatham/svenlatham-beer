@@ -41,52 +41,62 @@
           </ul>
 
           <h3>Country</h3>
+          <!-- If country has been specified in the query string, offer a clear value option -->
+
+
           <ul class="list-group">
             <!-- countries are stored as a list. the key gives us the country. the value gives us the count -->
             {% for country in countries %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <!-- if the country name is empty, put a plceholder -->
               {% if country.name == '' %}
-                <a href="?country=">Unknown</a>
+              
+                <a href="?{{ recreate_query_string('country','') }}">Unknown</a>
               {% else %}
-                <a href="?country={{ country.code }}">{{ country.name }}</a>
+                <a href="?{{ recreate_query_string('country', country.code) }}">{{ country.name }}</a>
               {% endif %}
               <span class="badge bg-primary rounded-pill">{{ country.count }}</span>
             </li>
             {% endfor %}
           </ul>
+          {% if query_string_exists('country') %}
+          <a href="?{{ recreate_query_string('country',None) }}">Clear country filter</a>
+          {% endif %}
+
+
+
           <h3>Trappist</h3>
           <ul class="list-group">
             <!-- trappist are stored as a list. the key gives us the trappist value. the value gives us the count -->
             {% for trappist in trappists %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="?trappist={{ trappist.value }}">{{ trappist.name }}</a>
+              <a href="?{{ recreate_query_string('trappist', trappist.value) }}">{{ trappist.name }}</a>
               <span class="badge bg-primary rounded-pill">{{ trappist.count }}</span>
             </li>
             {% endfor %}
           </ul>
+
+          {% if query_string_exists('trappist') %}
+          <a href="?{{ recreate_query_string('trappist',None) }}">Clear filter</a>
+          {% endif %}
           
         </div>
         <!-- display the list of beers in a grid -->
         <div class="col-md-10 row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
           {% for beer in beers %}
           <div class="col">
-            <div class="card h-100 shadow-sm">
-              {% if beer.img %}
+            <div class="card h-100 shadow-sm beer">
               <img src="/beer-thumbs/{{ beer.img }}" class="card-img-top" alt="">
-              {% else %}
-              <img src="/beer-thumbs/empty.jpg" class="card-img-top" alt="">
-              {% endif %}
               <div class="card-body">
-                <h5 class="card-title">{{ beer.name }}</h5>
-                <p class="card-text">{{ beer.description }}</p>
+                <h5 class="card-title beer-name"><a class="stretched-link" href="/beer/{{ beer.id }}/">{{ beer.name }}</a></h5>
+                <p class="card-text beer-description">{{ beer.description }}</p>
               </div>
               {% if beer.strength or beer.trappist or beer.country or beer.brewer %}
               <div class="card-footer">
-                {% if beer.strength %}<div><strong>Strength</strong> {{ beer.strength }}</div>{% endif %}
+                {% if beer.strength %}<div><strong>Strength</strong> <span class="beer-strength">{{ beer.strength }}</span></div>{% endif %}
                 {% if beer.trappist %}<div><img src="/f/trappist.png" alt=""
                     style="width: 20.8px; height: 24px"> Trappist</div>{% endif %}
-                {% if beer.brewer %}<div><strong>Brewer</strong> {{ beer.brewer }}</div>{% endif %}
+                {% if beer.brewer %}<div><strong>Brewer</strong> <span class="beer-brewer">{{ beer.brewer }}</span></div>{% endif %}
                 {% if beer.country %}<div><strong>Origin</strong> <img src="https://flagcdn.com/48x36/{{ beer.country }}.png"
               style="width: 24px; height: 18px;" alt=""> {{ get_country_name(lookup=beer.country) }}</div>{% endif %}
               </div>

@@ -3,7 +3,5 @@ WORKDIR /app/
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
-# Generate thumbnails
-RUN python generate-thumbs.py
 EXPOSE 8087
 ENTRYPOINT ["/bin/bash","./run.bash"]
