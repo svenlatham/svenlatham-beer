@@ -140,7 +140,7 @@ def index():
     if request.args.get('country') == '':
         beers = [beer for beer in beers if beer.country is None]
     elif request.args.get('country'):   
-        beers = [beer for beer in beers if beer.country.lower() == request.args.get('country').lower()]
+        beers = [beer for beer in beers if beer.country is not None and beer.country.lower() == request.args.get('country').lower()]
 
 
 
