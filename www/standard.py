@@ -141,6 +141,10 @@ def index():
         beers = [beer for beer in beers if beer.country is None]
     elif request.args.get('country'):   
         beers = [beer for beer in beers if beer.country is not None and beer.country.lower() == request.args.get('country').lower()]
+    if request.args.get('brewer') == '(not specified)':
+        beers = [beer for beer in beers if beer.brewer is None]
+    elif request.args.get('brewer'):   
+        beers = [beer for beer in beers if beer.brewer is not None and beer.brewer.lower() == request.args.get('brewer').lower()]
 
 
 
@@ -185,10 +189,31 @@ def index():
     # Filter out the trappist if there are no values
     trappist = [t for t in trappist if t['count'] > 0]
 
+    # create a list of brewers
+    brewer = {}
+    for beer in beers:  
+        if beer.brewer is None:
+            brewer_key = '(not specified)'
+        else:   
+            brewer_key = beer.brewer
+
+        if brewer_key in brewer.keys():
+            brewer[brewer_key] += 1
+        else:
+            brewer[brewer_key] = 1
+
+    breweries = []
+    for brewer_item in brewer.keys():
+        breweries.append({'name': brewer_item, 'count': brewer[brewer_item]})
+    breweries.sort(key=lambda x: x['name'].upper())
+
+    # Filter out the trappist if there are no values
+    trappist = [t for t in trappist if t['count'] > 0]
+
 
 
     
-    return render_template('index.html', beers=beers, countries=countries, trappists=trappist)
+    return render_template('index.html', beers=beers, countries=countries, trappists=trappist, breweries=breweries)
 
 
 @standard.route('/beer/<path:path>/')

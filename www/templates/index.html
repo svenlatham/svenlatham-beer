@@ -80,6 +80,20 @@
           <a href="?{{ recreate_query_string('trappist',None) }}">Clear filter</a>
           {% endif %}
           
+
+          <h3>Brewers</h3>
+          <ul class="list-group">
+            {% for brewer in breweries %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="?{{ recreate_query_string('brewer', brewer.name) }}">{{ brewer.name }}</a>
+              <span class="badge bg-primary rounded-pill">{{ brewer.count }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+
+          {% if query_string_exists('brewer') %}
+          <a href="?{{ recreate_query_string('brewer',None) }}">Clear filter</a>
+          {% endif %}
         </div>
         <!-- display the list of beers in a grid -->
         <div class="col-md-10 row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">

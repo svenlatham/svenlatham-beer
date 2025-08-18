@@ -4,4 +4,5 @@ description: Gorgeous triple brewed golden strong pale ale.
 trappist: true
 country: be
 strength: 9.5%
+brewer: Brouwerij der Trappisten van Westmalle
 ---
